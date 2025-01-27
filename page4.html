@@ -211,9 +211,9 @@
 <body>
     <!-- Image containers -->
     <div class="image-container">
-        <img src="cat1.jpg" alt="Cat 1">
-        <img src="cat2.jpg" alt="Cat 2">
-        <img src="cat3.jpg" alt="Cat 3">
+        <img src="images/cat1.jpg" alt="Cat 1">
+        <img src="images/cat2.jpg" alt="Cat 2">
+        <img src="images/cat3.jpg" alt="Cat 3">
     </div>
     <div class="question-container">
     <div class="question">
@@ -242,7 +242,7 @@
     </div>
 
     <div class="image-container-bottom">
-        <img src="valentine1.jpg" alt="Cartoon holding a rose">
+        <img src="images/valentine1.jpg" alt="Cartoon holding a rose">
     </div>
     <div id="falling-chikawa"></div>
 
@@ -286,7 +286,7 @@ const chikawaContainer = document.getElementById('falling-chikawa');
 // Create and append the Chikawa images
 for (let i = 0; i < 500; i++) {
     const chikawaImage = document.createElement('img');
-    chikawaImage.src = 'chikawa.jpg';  // Path to the Chikawa image
+    chikawaImage.src = 'images/chikawa.jpg';  // Path to the Chikawa image
     chikawaImage.classList.add('falling-chikawa');
     chikawaContainer.appendChild(chikawaImage);
 }
