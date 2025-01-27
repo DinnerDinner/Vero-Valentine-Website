@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riddle Journey</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Georgia&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: 'Georgia', serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      overflow-y: auto;
+      max-width: 100vw;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      padding: 20px;
+    }
+
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      color: #00ff00;
+      font-size: 4rem;
+      text-shadow: 0 0 10px #00ff00;
+      margin-bottom: 0;
+    }
+
+    .riddle {
+      font-size: 2rem;
+      color: #00ff00;
+      font-weight: bold;
+      margin-top: 20px;
+      text-shadow: 0 0 10px #00ff00;
+    }
+
+    input {
+      font-size: 1.5rem;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #333;
+      color: white;
+      width: 80%;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    input:focus {
+      background-color: #444;
+      outline: none;
+    }
+
+    .poem {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2rem;
+      color: #ffccff;
+      opacity: 0;
+      margin-top: 200px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      transition: opacity 0.5s;
+    }
+
+    .feedback {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: #ff0044;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .arrow {
+      font-size: 3rem;
+      color: #00ff00;
+      margin-top: 250px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .arrow:hover {
+      transform: scale(1.1);
+    }
+
+    .riddle-container {
+      margin-bottom: 400px;
+    }
+
+    .empty-space {
+      height: 300vh;
+    }
+
+    #riddle2, #riddle3, #riddle4, #riddle5 {
+      display: none;
+    }
+
+    .scroll-placeholder {
+      height: 500vh;
+    }
+
+    .title-riddle-container {
+      margin-top: 0;
+    }
+
+    /* Button Styles */
+    .next-button {
+      font-size: 1.5rem;
+      background-color: #00ff00;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 5px;
+      margin-top: 20px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .next-button:hover {
+      background-color: #00cc00;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="title-riddle-container">
+      <h1>Love's Riddle Journey</h1>
+      <div class="riddle">What warms us but can’t be seen?</div>
+      <input type="text" id="answer1" placeholder="Type your answer..." oninput="checkAnswer('sunshine', 'poem1', 'riddle2', 'answer1')">
+      <div class="feedback" id="feedback1"></div>
+      <div class="poem" id="poem1"></div>
+      <div class="arrow" id="arrow1" onclick="scrollToNext('riddle2')">↓</div>
+    </div>
+
+    <div class="riddle-container" id="riddle2">
+      <div class="riddle">What’s purple and smells like a dream?</div>
+      <input type="text" id="answer2" placeholder="Type your answer..." oninput="checkAnswer('lavender', 'poem2', 'riddle3', 'answer2')">
+      <div class="feedback" id="feedback2"></div>
+      <div class="poem" id="poem2"></div>
+      <div class="arrow" id="arrow2" onclick="scrollToNext('riddle3')">↓</div>
+    </div>
+
+    <div class="riddle-container" id="riddle3">
+      <div class="riddle">What connects us, though it can’t be seen?</div>
+      <input type="text" id="answer3" placeholder="Type your answer..." oninput="checkAnswer('love', 'poem3', 'riddle4', 'answer3')">
+      <div class="feedback" id="feedback3"></div>
+      <div class="poem" id="poem3"></div>
+      <div class="arrow" id="arrow3" onclick="scrollToNext('riddle4')">↓</div>
+    </div>
+
+    <div class="riddle-container" id="riddle4">
+      <div class="riddle">What’s orange and hides a mystery in the night?</div>
+      <input type="text" id="answer4" placeholder="Type your answer..." oninput="checkAnswer('pumpkin', 'poem4', 'riddle5', 'answer4')">
+      <div class="feedback" id="feedback4"></div>
+      <div class="poem" id="poem4"></div>
+      <div class="arrow" id="arrow4" onclick="scrollToNext('riddle5')">↓</div>
+    </div>
+
+    <div class="riddle-container" id="riddle5">
+      <div class="riddle">What beats without a sound?</div>
+      <input type="text" id="answer5" placeholder="Type your answer..." oninput="checkAnswer('heart', 'poem5', null, 'answer5')">
+      <div class="feedback" id="feedback5"></div>
+      <div class="poem" id="poem5"></div>
+      <div class="arrow" id="arrow5">↓</div>
+    </div>
+
+    <!-- Next Page Button -->
+    <div class="next-button" id="nextButton" onclick="window.location.href='page3.html'">Go to Page 3</div>
+
+    <div class="scroll-placeholder"></div>
+  </div>
+
+  <script>
+    const poems = {
+      poem1: `Sunshine, so bright,
+      A warmth that can’t be seen,
+      It fills our hearts with light,
+      A love that’s always keen.
+      With every sunrise, it’ll rise,
+      Lighting up the darkest skies.`,
+
+      poem2: `Lavender, a dream,
+      A scent that fills the air,
+      Purple haze, it gleams,
+      A love beyond compare.
+      In every breeze, its whispers roam,
+      In its fragrance, we feel at home.`,
+
+      poem3: `Love, so deep,
+      It binds us, pure and true,
+      In every heartbeat, it keeps,
+      Connecting me to you.
+      Not touched, yet always near,
+      A love that conquers fear.`,
+
+      poem4: `A pumpkin, you say?
+      In the dark, so bright,
+      A mystery in the night,
+      Shadows it will play.
+      Halloween’s eerie sound,
+      Where secrets are found.`,
+
+      poem5: `The heart, you say?
+      It beats without a sound,
+      Yet in its silence, we lay,
+      A love so profound.
+      It echoes deep within,
+      The power of love, our win.`
+    };
+
+    function checkAnswer(correctAnswer, poemId, nextRiddleId, answerId) {
+      const userAnswer = document.getElementById(answerId).value.toLowerCase();
+      const feedback = document.getElementById(`feedback${answerId.charAt(answerId.length - 1)}`);
+      const poemElement = document.getElementById(poemId);
+      const arrow = document.getElementById(`arrow${answerId.charAt(answerId.length - 1)}`);
+      const nextRiddle = nextRiddleId ? document.getElementById(nextRiddleId) : null;
+
+      if (userAnswer === correctAnswer) {
+        feedback.textContent = "YAYAYAYAYAYAYA THAT'S CORRECT KIKIIII!!!";
+        feedback.style.color = "#00ff00";
+        revealPoem(poemElement, poemId, arrow, nextRiddle);
+      } else {
+        feedback.textContent = "Try again, love!";
+        feedback.style.color = "#ff0044";
+      }
+    }
+
+    function revealPoem(poemElement, poemId, arrow, nextRiddle) {
+      let index = 0;
+      poemElement.style.opacity = 1;
+      poemElement.textContent = "";
+
+      function typePoem() {
+        if (index < poems[poemId].length) {
+          poemElement.textContent += poems[poemId][index];
+          index++;
+          setTimeout(typePoem, 50);
+        }
+      }
+
+      typePoem();
+
+      setTimeout(() => {
+        arrow.style.display = 'block';
+        if (nextRiddle) {
+          nextRiddle.style.display = 'block';
+        }
+        // Show the "Next Page" button after the final riddle is solved
+        if (poemId === 'poem5') {
+          document.getElementById('nextButton').style.display = 'block';
+        }
+      }, poems[poemId].length * 50 + 1500);
+    }
+
+    function scrollToNext(nextRiddleId) {
+      const nextRiddle = document.getElementById(nextRiddleId);
+      nextRiddle.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  </script>
+
+</body>
+</html>

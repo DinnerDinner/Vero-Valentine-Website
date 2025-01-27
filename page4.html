@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page 4 - The Big Question</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet"> <!-- Cute serif font -->
+    <style>
+        body {
+            font-family: 'Sacramento', serif;
+            background-color: #fce4ec;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        /* Glittery Metallic Title */
+        .question-container {
+        background-color: #fce4ec; /* Same as the background */
+        display: inline-block;
+        padding: 10px 20px; /* Adjust padding as needed */
+        border-radius: 10px; /* Optional for rounded corners */
+    }
+
+        .question {
+            text-align: center;
+            font-size: 64px;
+            font-weight: bold;
+            color: transparent;
+            background-image: linear-gradient(45deg, #ff4081, #291f22, #dbb1bf, #c00744);
+            background-clip: text;
+            -webkit-background-clip: text;
+            animation: glitterEffect 1.5s ease-in-out infinite, sparkleEffect 0.8s linear infinite;
+            letter-spacing: 1px;
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Animation for the metallic glitter effect */
+        @keyframes glitterEffect {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        /* Sparkling effect on the title text */
+        @keyframes sparkleEffect {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* Heart Explosions from the title */
+        .hearts {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 40px;
+            color: #ff4081;
+            animation: heartExplosion 1s ease-out infinite;
+        }
+
+        @keyframes heartExplosion {
+            0% {
+                transform: scale(0) translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5) translate(var(--x), var(--y));
+                opacity: 0;
+            }
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .btn {
+            position: relative;
+            padding: 18px 30px;
+            font-size: 30px;
+            background-color: #f8bbd0;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            font-family: 'Sacramento', serif;
+            width: 180px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background-color: #f48fb1;
+        }
+
+        .btn:focus {
+            outline: none;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Glitter effect inside buttons */
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.3), rgba(255, 0, 150, 0.5), rgba(255, 105, 180, 0.6));
+            background-size: 200% 200%;
+            animation: pulsatingGlitter 0.8s ease-in-out infinite, moveGradient 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        /* Pulsating glitter animation */
+        @keyframes pulsatingGlitter {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        /* Smooth gradient shift animation */
+        @keyframes moveGradient {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        /* Image containers */
+        .image-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+/* General style for all images in the container */
+.image-container img {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Specific style for the bottom container (the last image) */
+.image-container-bottom img {
+    max-width: 300px;    /* Change size of the last image */
+    max-height: 300px;   /* Change size of the last image */
+    border-radius: 15px; /* Optional: change border radius */
+    margin-top: 30px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3); /* Optional: adjust shadow for the last image */
+}
+
+.falling-chikawa {
+            position: absolute;
+            top: -100px;  /* Start above the screen */
+            width: 100px;  /* Set the size of the image */
+            height: 100px;
+            z-index: -1;  /* Ensure the chikawa images fall behind all other elements */
+            animation: fall 4s linear infinite;
+        }
+
+        /* Keyframes for the falling animation */
+        @keyframes fall {
+            0% {
+                top: -100px;  /* Start from the top */
+                opacity: 1;
+            }
+            100% {
+                top: 100vh;  /* End at the bottom of the screen */
+                opacity: 0;
+            }
+        }
+
+        /* Randomize delay and speed of falling chikawas */
+        .falling-chikawa:nth-child(odd) {
+            animation-duration: 4s;
+            animation-delay: -2s;
+            left: calc(100% * random());
+        }
+
+        .falling-chikawa:nth-child(even) {
+            animation-duration: 4s;
+            animation-delay: -3s;
+            left: calc(100% * random());
+        }
+
+        
+    </style>
+</head>
+<body>
+    <!-- Image containers -->
+    <div class="image-container">
+        <img src="cat1.jpg" alt="Cat 1">
+        <img src="cat2.jpg" alt="Cat 2">
+        <img src="cat3.jpg" alt="Cat 3">
+    </div>
+    <div class="question-container">
+    <div class="question">
+        Will You Be My Valentine? 💖
+        <div class="hearts">
+            <!-- Multiple hearts with animation -->
+            <div class="heart" style="--x: 50px; --y: -30px; animation-delay: 0s;">❤️</div>
+            <div class="heart" style="--x: -40px; --y: 20px; animation-delay: 0.2s;">💖</div>
+            <div class="heart" style="--x: 90px; --y: -50px; animation-delay: 0.4s;">💘</div>
+            <div class="heart" style="--x: -60px; --y: -80px; animation-delay: 0.6s;">💕</div>
+            <div class="heart" style="--x: 80px; --y: 70px; animation-delay: 0.8s;">💝</div>
+            <div class="heart" style="--x: -90px; --y: 60px; animation-delay: 1s;">💖</div>
+            <div class="heart" style="--x: 110px; --y: -100px; animation-delay: 1.2s;">❤️</div>
+            <div class="heart" style="--x: -120px; --y: -50px; animation-delay: 1.4s;">💘</div>
+        </div>
+    </div>
+    </div>
+
+    <div class="buttons">
+        <button id="yes1" class="btn">
+            Y-yes. 💕
+        </button>
+        <button id="yes2" class="btn">
+            Ofc!! 💝
+        </button>
+    </div>
+
+    <div class="image-container-bottom">
+        <img src="valentine1.jpg" alt="Cartoon holding a rose">
+    </div>
+    <div id="falling-chikawa"></div>
+
+    <script>
+        const yesButtons = document.querySelectorAll('.btn');
+
+        yesButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                // Random position generator for button
+                const randomX = Math.random() * (window.innerWidth - button.offsetWidth);
+                const randomY = Math.random() * (window.innerHeight - button.offsetHeight);
+
+                // Move the clicked button to a new position
+                button.style.position = 'absolute';
+                button.style.left = `${randomX}px`;
+                button.style.top = `${randomY}px`;
+
+                // Faster movement by reducing the duration of the transition
+                button.style.transition = "transform 0.1s ease, left 0.2s ease, top 0.2s ease";
+            });
+        });
+        let clickCount = 0;
+
+yesButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Increment the click count
+        clickCount++;
+
+        // Check if click count reaches 13
+        if (clickCount >= 13) {
+            // Redirect to page5
+            window.location.href = 'page5.html';
+        }
+    });
+});
+    </script>
+        <script>
+// Dynamically create 25 falling Chikawa images
+const chikawaContainer = document.getElementById('falling-chikawa');
+
+// Create and append the Chikawa images
+for (let i = 0; i < 500; i++) {
+    const chikawaImage = document.createElement('img');
+    chikawaImage.src = 'chikawa.jpg';  // Path to the Chikawa image
+    chikawaImage.classList.add('falling-chikawa');
+    chikawaContainer.appendChild(chikawaImage);
+}
+
+// Randomize the left position and animation speed for each chikawa image
+const chikawaImages = document.querySelectorAll('.falling-chikawa');
+chikawaImages.forEach(chikawa => {
+    const randomLeft = Math.random() * 100;  // Randomize horizontal position (between 0% and 100%)
+    const randomDelay = Math.random() * 5;  // Randomize delay for each chikawa
+    const randomSpeed = Math.random() * 4 + 3;  // Randomize speed of falling (between 3s and 7s)
+
+    chikawa.style.left = `${randomLeft}%`;  // Random left position
+    chikawa.style.animationDuration = `${randomSpeed}s`;  // Random falling speed
+    chikawa.style.animationDelay = `-${randomDelay}s`;  // Random delay before start
+});
+
+        </script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hi Vero! ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Georgia&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    /* Initial Black Background for "I LOVE YOU" */
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #000;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      transition: background-color 1s ease-in-out;
+    }
+
+    /* Hidden content initially */
+    .content {
+      text-align: center;
+    }
+
+    /* "I LOVE YOU" Button */
+    .love-btn {
+      padding: 20px 40px;
+      font-size: 2rem;
+      background-color: #ff4a6e;
+      border: none;
+      color: #fff;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .love-btn:hover {
+      background-color: #ff2b56;
+    }
+
+    /* Main Content Styling */
+    .container {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      font-size: 4rem;
+      font-family: 'Great Vibes', cursive;
+      margin: 0 0 20px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin: 10px 0;
+      line-height: 1.8;
+    }
+    .btn {
+      padding: 15px 30px;
+      font-size: 1.3rem;
+      background: #ff4a6e;
+      border: none;
+      color: #fff;
+      border-radius: 50px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: #ff2b56;
+      transform: scale(1.1);
+    }
+
+    /* Content animation */
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    /* Floating Hearts */
+    .floating-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: pink;
+      mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 29.6"><path d="M23.6 0C19.9 0 16.8 2.3 16 5.5 15.2 2.3 12.1 0 8.4 0 3.8 0 0 3.8 0 8.4c0 9.1 16 21.2 16 21.2s16-12.1 16-21.2C32 3.8 28.2 0 23.6 0z"/></svg>');
+      mask-size: cover;
+      opacity: 0;
+      animation: float 6s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(0.5);
+        opacity: 0;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Initial Black Background and "I LOVE YOU" Button -->
+  <div class="content" id="love-message">
+    <button class="love-btn" onclick="revealContent()">I LOVE YOU ❤️</button>
+  </div>
+
+  <!-- Rest of the page content (hidden initially) -->
+  <div class="container" id="page-content">
+    <h1>Hi Vero! ❤️</h1>
+    <p>
+      <span style="font-style:italic;">From the very first moment I laid eyes on you,</span>  
+      something deep within me knew you were the one.  
+      <br><br>
+      <strong>In a world where everything seems fleeting,</strong> you are my constant, my heart’s unwavering light.  
+      <br><br>
+      Every word you speak, every glance you share, fills me with a warmth I never knew existed.  
+      <span style="font-style:italic;">In your smile, I see endless dreams,</span> and in your laughter, a world that feels whole.
+      <br><br>
+      <strong>It is in the quiet moments between us</strong> where I feel most at peace, as if time itself pauses to admire the beauty of what we share.  
+      <br><br>
+      I can’t promise you perfection, but I promise I will always give you my heart,  
+      every single piece of it, over and over again.
+      <br><br>
+      <span style="font-weight:bold;">You are the poetry that fills my soul,</span>  
+      and each moment with you is a verse that I’ll cherish forever.  
+      <br><br>
+      <span style="font-style:italic;">Because you, Vero, are everything to me,</span>  
+      and I’ll spend the rest of my life showing you just how deeply you are loved.
+      <br><br>
+      <span style="font-style:italic;">I love you more than words can say,</span>  
+      and yet, every word I speak to you is a promise of my heart, my devotion, and my endless affection.
+    </p>
+    <a href="page2.html" class="btn">Let’s Begin 🌹</a>
+  </div>
+
+  <!-- Floating Hearts -->
+  <div class="floating-hearts"></div>
+
+  <!-- Background Music -->
+  <audio id="background-music" loop>
+    <source src="page_1_music.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    // Show content when the "I LOVE YOU" button is clicked
+    function revealContent() {
+      // Play music
+      const music = document.getElementById('background-music');
+      music.play();
+
+      // Transition to the new content and start animations
+      document.body.style.backgroundColor = '#ff7eb3'; // Set background color to pink for the rest of the page
+      document.getElementById('love-message').style.display = 'none'; // Hide the "I LOVE YOU" button
+
+      // Show page content after fade-out
+      setTimeout(function() {
+        document.getElementById('page-content').style.display = 'block'; // Show the rest of the content
+        document.getElementById('page-content').style.animation = 'fadeIn 1s ease-in-out'; // Trigger fade-in animation
+        startHeartAnimation(); // Start heart floating animation
+      }, 1000); // Wait 1 second to ensure smooth fade-out
+    }
+
+    // Start the floating hearts animation
+    function startHeartAnimation() {
+      const heartContainer = document.querySelector('.floating-hearts');
+      for (let i = 0; i < 50; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.animationDuration = Math.random() * 5 + 3 + 's';
+        heart.style.animationDelay = Math.random() * 5 + 's';
+        heartContainer.appendChild(heart);
+      }
+    }
+  </script>
+</body>
+</html>

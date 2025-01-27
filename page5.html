@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page 5 - The Breakdown</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: black;
+            font-family: 'Courier New', monospace;
+            color: #00FF00;
+            height: 100vh;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            position: relative;
+        }
+
+        /* Glitchy Command Prompt */
+        h1, p, .line {
+            text-transform: uppercase;
+            font-size: 20px;
+            letter-spacing: 1px;
+            position: absolute;
+            left: 10px;
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+        }
+
+        /* Animation for the glitch text */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Glitch effect */
+        @keyframes glitchEffect {
+            0% { transform: translate(0); opacity: 1; }
+            10% { transform: translate(-2px, -2px); opacity: 0.8; }
+            30% { transform: translate(3px, 3px); opacity: 0.6; }
+            50% { transform: translate(-2px, 2px); opacity: 0.7; }
+            70% { transform: translate(3px, -3px); opacity: 0.9; }
+            90% { transform: translate(-3px, 3px); opacity: 0.5; }
+            100% { transform: translate(0); opacity: 1; }
+        }
+
+        .glitch {
+            animation: glitchEffect 0.15s infinite linear;
+        }
+
+        /* Matrix-like Background Effect */
+        .matrix-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .matrix-line {
+            position: absolute;
+            color: #00FF00;
+            font-size: 18px;
+            white-space: nowrap;
+            opacity: 0;
+            animation: glitchLine 0.1s infinite ease-in-out;
+        }
+
+        @keyframes glitchLine {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* Full Screen Coverage */
+        .full-screen-text {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            animation: fadeIn 0.5s ease-in forwards;
+        }
+
+        .line {
+            position: relative;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-background"></div>
+    <h1 id="title" class="glitch">Initializing System...</h1>
+    <p id="message" class="glitch">Loading core modules... Please wait.</p>
+
+    <script>
+        const matrixBackground = document.querySelector('.matrix-background');
+        let lineCount = 0;
+        let maxLines = 300; // Increase the number of lines to simulate overload
+        let codeLines = [
+            "Initializing system...",
+            "Loading core modules...",
+            "Error: Code corrupt in sector X",
+            "System breach detected. Attempting recovery...",
+            "Warning: Malicious code detected.",
+            "Attempting to quarantine infected modules...",
+            "Error: System failure imminent.",
+            "Warning: Rebooting failed...",
+            "Critical error: Unauthorized access detected...",
+            "System halt... Self-destructing..."
+        ];
+
+        // Generate random system-like logs or binary strings
+        function generateRandomText() {
+            const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz$> ";
+            let text = "";
+            let length = Math.floor(Math.random() * 8 + 10); // Random length between 10 and 20 chars
+
+            for (let i = 0; i < length; i++) {
+                text += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+
+            return text;
+        }
+
+        // Add new glitchy lines as if they're from a system log
+        function generateGlitchLines() {
+            for (let i = 0; i < 10; i++) {
+                const line = document.createElement('div');
+                const randomText = generateRandomText();
+                line.textContent = randomText;
+                line.classList.add('matrix-line');
+                const randomPositionX = Math.random() * 100; // Random horizontal position
+                const randomPositionY = Math.random() * 100; // Random vertical position
+
+                line.style.top = `${randomPositionY}%`;
+                line.style.left = `${randomPositionX}%`;
+
+                // Delay for added effect
+                line.style.animationDelay = `${Math.random() * 3}s`;
+
+                matrixBackground.appendChild(line);
+                lineCount++;
+
+                if (lineCount > maxLines) {
+                    line.remove(); // Remove older lines to maintain limit
+                }
+            }
+        }
+
+        // Trigger the glitchy text animations with more random elements
+        function startGlitchEffect() {
+            let lineInterval = setInterval(generateGlitchLines, 50); // Generate more lines every 150ms
+            setTimeout(() => {
+                clearInterval(lineInterval); // Stop generating new lines after a while
+            }, 15000); // Stop glitching after 7 seconds
+        }
+
+        // Slowly animate code lines typing out like a typewriter
+        function typeWriterEffect(line, index) {
+            const span = document.createElement('div');
+            span.classList.add('line');
+            span.textContent = line;
+            document.body.appendChild(span);
+
+            let i = 0;
+            function typeLetter() {
+                if (i < line.length) {
+                    span.textContent = line.substring(0, i + 1);
+                    i++;
+                    setTimeout(typeLetter, 100); // Adjust typing speed here
+                }
+            }
+            typeLetter();
+
+            // Trigger the next code line after a delay
+            if (index < codeLines.length - 1) {
+                setTimeout(() => typeWriterEffect(codeLines[index + 1], index + 1), 2000);
+            } else {
+                setTimeout(startGlitchEffect, 2000); // Start glitch effect after code runs
+            }
+        }
+
+        // Start typing out the code slowly
+        function slowCodeRun() {
+            typeWriterEffect(codeLines[0], 0);
+        }
+
+        // Add the crazy color switching effect after 15 seconds
+        function startColorSwitching() {
+            const colors = [      '#000000', // Black
+    '#006400', // Dark Green (Royal Green)
+    '#6A0DAD', // Purple
+    '#8B0000', // Deep Red
+    '#00008B', // Deep Blue (Scary Dark Blue)
+];
+            let colorIndex = 0;
+
+            setInterval(() => {
+                document.body.style.backgroundColor = colors[colorIndex];
+                colorIndex = (colorIndex + 1) % colors.length;
+            }, 50); // Change every 100ms (crazy speed)
+        }
+
+        // Reverse the process step-by-step
+        function reverseEffects() {
+    let lines = Array.from(document.querySelectorAll('.line'));
+    let glitches = Array.from(document.querySelectorAll('.matrix-line'));
+    let colorInterval;
+
+    // Stop the color-switching effect
+    function stopColorSwitching() {
+        clearInterval(colorInterval);
+    }
+
+    // Remove all glitches one by one
+    function removeGlitches(callback) {
+        let interval = setInterval(() => {
+            if (glitches.length > 0) {
+                glitches.pop().remove();
+            } else {
+                clearInterval(interval);
+                if (callback) callback(); // Proceed to the next step
+            }
+        }, 10); // Adjust delay for glitch removal speed
+    }
+
+    // Remove all lines one by one
+    function removeLines(callback) {
+        let interval = setInterval(() => {
+            if (lines.length > 0) {
+                lines.pop().remove();
+            } else {
+                clearInterval(interval);
+                if (callback) callback(); // Proceed to the next step
+            }
+        }, 200); // Adjust delay for line removal speed
+    }
+
+    // Add black overlay to the screen
+    function addBlackOverlay() {
+        const overlay = document.createElement('div');
+        overlay.id = 'black-overlay'; // Add an ID to easily manipulate it later
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100vw';
+        overlay.style.height = '100vh';
+        overlay.style.backgroundColor = 'black';
+        overlay.style.zIndex = '9999'; // Ensure it's on top of everything
+        overlay.style.transition = 'opacity 1s ease'; // Optional fade effect
+        overlay.style.opacity = '0';
+
+        document.body.appendChild(overlay);
+
+        // Fade in the overlay after a short delay
+        setTimeout(() => {
+            overlay.style.opacity = '1';
+        }, 10);
+    }
+
+    // Orchestrate the entire process
+    stopColorSwitching(); // Stop color-switching first
+    removeGlitches(() => {
+        removeLines(() => {
+            addBlackOverlay(); // Only add the overlay after glitches and lines are cleared
+        });
+    });
+}
+
+
+        // Start everything
+        slowCodeRun();
+
+        // Start color switching after a 15-second delay
+        setTimeout(startColorSwitching, 27000); // 15 seconds delay before the color switching starts
+
+        // Reverse everything after 45 seconds
+        setTimeout(reverseEffects, 27000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Game Hub</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Playfair Display', serif;
+            margin: 0;
+            background-color: #000000; /* Set background to black */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            color: #fff; /* Ensure text is white */
+            position: relative;
+        }
+
+        #app {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #ff5f8f;
+            text-transform: uppercase;
+            text-shadow: 0 0 15px #ff5f8f, 0 0 30px #ff5f8f, 0 0 45px #ff5f8f;
+            animation: titleGlow 1.5s infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% {
+                text-shadow: 0 0 15px #ff5f8f, 0 0 30px #ff5f8f, 0 0 45px #ff5f8f;
+            }
+            100% {
+                text-shadow: 0 0 25px #ff5f8f, 0 0 50px #ff5f8f, 0 0 75px #ff5f8f;
+            }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: #ffb6c1;
+            box-shadow: 0 0 10px 2px #ffb6c1;
+            border-radius: 50%;
+            animation: sparkleAnimation 3s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes sparkleAnimation {
+            0% {
+                transform: scale(0.5) translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5) translateY(-50px);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(0) translateY(-100px);
+                opacity: 0;
+            }
+        }
+
+        .game-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .game-card {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(145deg, #ff7eb9, #ffbdd8);
+            border-radius: 15px;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2), -5px -5px 10px rgba(255, 255, 255, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-card img {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 10px;
+        }
+
+        .game-card p {
+            font-size: 1rem;
+            color: #ffffff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup-content {
+            background: #351c1c;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #ff5f8f;
+        }
+
+        .close-btn i {
+            font-size: 1.5rem;
+        }
+
+        .game-area {
+            padding: 20px;
+            text-align: left;
+        }
+                .next-page-button .big-button {
+            padding: 15px 30px;  /* Bigger button */
+            font-size: 24px;  /* Larger font size */
+            background-color: #ff4081; /* Bright, eye-catching color */
+            color: white;  /* Text color */
+            border: none;  /* No border */
+            border-radius: 10px;  /* Rounded corners */
+            cursor: pointer;  /* Pointer cursor on hover */
+            transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+        }
+
+        .next-page-button .big-button:hover {
+            transform: scale(1.1);  /* Slightly enlarge on hover */
+            background-color: #f50057; /* Darker pink for hover effect */
+        }
+
+        .next-page-button .big-button:focus {
+            outline: none;  /* Remove focus outline */
+            box-shadow: 0 0 10px rgba(255, 64, 129, 0.8);  /* Glow effect on focus */
+        }
+        
+        .wordle-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .wordle-grid {
+            display: grid;
+            grid-template-rows: repeat(6, 50px);
+            grid-gap: 5px;
+        }
+
+        .wordle-row {
+            display: grid;
+            grid-template-columns: repeat(5, 50px);
+            grid-gap: 5px;
+        }
+
+        .wordle-cell {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            background: #fff;
+            color: #000;
+        }
+
+        .wordle-cell.correct {
+            background-color: #6aaa64; /* Green for correct letters */
+            color: #fff;
+        }
+
+        .wordle-cell.present {
+            background-color: #c9b458; /* Yellow for present letters */
+            color: #fff;
+        }
+
+        .wordle-cell.absent {
+            background-color: #787c7e; /* Gray for absent letters */
+            color: #fff;
+        }
+
+        .wordle-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .wordle-input input {
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+        }
+        /* Math Blitz Specific Styles */
+        .math-blitz-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+
+        .math-blitz {
+            background-color: #835353;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .math-blitz .goal {
+            font-size: 1.2em;
+            color: #f7f0f0;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .math-blitz .score {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #4CAF50;
+        }
+
+        .math-blitz .question {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .math-blitz .input input {
+            padding: 10px;
+            font-size: 0.7em;
+            width: 120px;
+            text-align: center;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+        }
+
+        .math-blitz .timer {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: #e60000;
+        }
+
+        .math-blitz .message {
+            font-size: 1.3em;
+            color: #1adfa4;
+            margin-top: 15px;
+        }
+
+        .win-message {
+            color: #4CAF50;
+        }
+
+        .lose-message {
+            color: #FF0000;
+        }
+
+    </style>
+    <style scoped>
+        .hidden {
+            display: none;
+        }
+    </style>
+
+    <style scoped>
+        /* Snake Game */
+        .snake-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .game-board {
+          display: grid;
+          grid-template-columns: repeat(10, 30px);
+          grid-gap: 2px;
+        }
+        .cell {
+          width: 30px;
+          height: 30px;
+          background-color: rgb(187, 174, 174);
+        }
+        .snake {
+          background-color: green;
+        }
+        .food {
+          background-color: rgb(209, 167, 167);
+        }
+        .score {
+          font-size: 18px;
+          margin-top: 10px;
+        }
+        .game-over {
+          text-align: center;
+          font-size: 20px;
+          color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Valentine's Mini-Game Hub</h1>
+        <div class="counter">
+            <p>Games Won (final stage unlocks after 5 wins):   <span>  {{ completedGames }}</span></p>
+        </div>
+        <div class="game-container">
+            <div v-for="game in games" :key="game.id" class="game-card" @click="selectGame(game.id)">
+                <img :src="game.icon" :alt="game.name">
+                <p>{{ game.name }}</p>
+            </div>
+        </div>
+
+        <div v-if="selectedGame" class="popup">
+            <div class="popup-content">
+                <button class="close-btn" @click="closeGame">
+                    <i class="fa fa-heart"></i>
+                    <span>Close</span>
+                </button>
+                <h2>{{ selectedGame.name }}</h2>
+                <div class="game-area">
+                    <wordle-game v-if="selectedGame.id === 'wordle'" @game-completed="incrementCounter"></wordle-game>
+                    <math-blitz v-if="selectedGame.id === 'math'"@game-completed="incrementCounter"></math-blitz>
+                    <snake-game v-if="selectedGame.id === 'snake'" @game-completed="incrementCounter"></snake-game> <!-- Add SnakeGame here -->
+                    <p v-else>{{ selectedGame.description }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div v-if="completedGames >= 5" class="next-page-button">
+            <button @click="navigateToPage4" class="big-button">Go to Page 4</button>
+        </div>
+    </div>
+
+    <script>
+        const WordleGame = {
+            template: `
+                <div class="wordle-container">
+                    <div class="wordle-grid">
+                        <div v-for="(row, rowIndex) in grid" :key="'row-' + rowIndex" class="wordle-row">
+                            <div
+                                v-for="(cell, cellIndex) in row"
+                                :key="'cell-' + rowIndex + '-' + cellIndex"
+                                class="wordle-cell"
+                                :class="{'correct': cell.status === 'correct', 'present': cell.status === 'present', 'absent': cell.status === 'absent'}"
+                            >
+                                {{ cell.letter }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wordle-input">
+                        <input type="text" v-model="currentGuess" maxlength="5" @keyup.enter="submitGuess" placeholder="Type a 5-letter word" />
+                    </div>
+                    <div class="wordle-message">
+                        <p v-if="gameStatus === 'win'">🎉 You guessed it! The word was "{{ word }}"!</p>
+                        <p v-if="gameStatus === 'lose'">💔 Game Over! The word was "{{ word }}".</p>
+                    </div>
+                </div>
+            `,
+            data() {
+                return {
+                    word: 'heart',
+                    grid: Array.from({ length: 6 }, () => Array.from({ length: 5 }, () => ({ letter: '', status: '' }))),
+                    currentRow: 0,
+                    currentGuess: '',
+                    gameStatus: 'playing',
+                };
+            },
+            methods: {
+                submitGuess() {
+                    const guess = this.currentGuess.toLowerCase();
+                    if (guess.length !== 5 || this.gameStatus !== 'playing') {
+                        return;
+                    }
+
+                    for (let i = 0; i < 5; i++) {
+                        const letter = guess[i];
+                        if (letter === this.word[i]) {
+                            this.grid[this.currentRow][i] = { letter, status: 'correct' };
+                        } else if (this.word.includes(letter)) {
+                            this.grid[this.currentRow][i] = { letter, status: 'present' };
+                        } else {
+                            this.grid[this.currentRow][i] = { letter, status: 'absent' };
+                        }
+                    }
+
+                    if (this.currentRow === 5 || guess === this.word) {
+                        this.gameStatus = guess === this.word ? 'win' : 'lose';
+                        if (this.gameStatus === 'win') {
+                            this.$emit('game-completed'); // Emit only if the game is won
+                        }
+                    } else {
+                        this.currentRow++;
+                    }
+                }
+            },
+        };
+
+
+        const MathBlitz = {
+            template: `
+                <div class="math-blitz-container">
+                    <div class="math-blitz">
+                        <div class="goal">Answer as many questions as possible!</div>
+                        <div class="score">Correct Answers: {{ correctAnswers }} / {{ totalQuestions }}</div>
+                        <div class="question">{{ currentQuestion.question }}</div>
+                        <div class="input" v-bind:class="{ 'hidden': gameOver }">
+                            <input type="number" v-model="userAnswer" @keyup.enter="checkAnswer" placeholder="Your answer" />
+                        </div>
+                        <div class="timer">{{ timeLeft }} seconds left</div>
+                        <div v-if="gameOver" class="message">{{ resultMessage }}</div>
+                    </div>
+                </div>
+            `,
+            data() {
+                return {
+                    correctAnswers: 0,
+                    totalQuestions: 10, // Number of questions to win
+                    timeLeft: 30,
+                    userAnswer: '',
+                    currentQuestion: this.generateRandomQuestion(),
+                    gameOver: false,
+                    resultMessage: '',
+                    timerInterval: null
+                };
+            },
+            methods: {
+                generateRandomQuestion() {
+                    const operations = ['+', '-', '*', '/'];
+                    const operation = operations[Math.floor(Math.random() * operations.length)];
+                    const num1 = Math.floor(Math.random() * 10) + 1;
+                    const num2 = Math.floor(Math.random() * 10) + 1;
+                    
+                    let question = '';
+                    let answer = 0;
+
+                    // Generate different types of questions
+                    switch (operation) {
+                        case '+':
+                            question = `${num1} + ${num2}`;
+                            answer = num1 + num2;
+                            break;
+                        case '-':
+                            question = `${num1} - ${num2}`;
+                            answer = num1 - num2;
+                            break;
+                        case '*':
+                            question = `${num1} * ${num2}`;
+                            answer = num1 * num2;
+                            break;
+                        case '/':
+                            // To avoid division by zero, we ensure num2 is not zero
+                            question = `${num1 * num2} / ${num2}`;
+                            answer = num1;
+                            break;
+                    }
+
+                    return {
+                        question: question,
+                        answer: answer
+                    };
+                },
+                checkAnswer() {
+                    if (parseInt(this.userAnswer) === this.currentQuestion.answer) {
+                        this.correctAnswers++;
+                        if (this.correctAnswers === this.totalQuestions) {
+                            this.endGame(true);
+                        } else {
+                            this.nextQuestion();
+                        }
+                    } else {
+                        this.nextQuestion();
+                    }
+                },
+                nextQuestion() {
+                    this.userAnswer = '';
+                    this.currentQuestion = this.generateRandomQuestion();
+                },
+                endGame(won) {
+                    clearInterval(this.timerInterval);
+                    this.gameOver = true;
+                    this.resultMessage = won ? '🎉 You won! You answered all the questions correctly!' : '💔 Game Over! Time is up!';
+                    if (won) {
+                        this.$emit('game-completed'); // Increment counter only on win
+                    }
+                },
+                startTimer() {
+                    this.timerInterval = setInterval(() => {
+                        if (this.timeLeft <= 0) {
+                            this.endGame(false);
+                        } else {
+                            this.timeLeft--;
+                        }
+                    }, 1000);
+                }
+            },
+            mounted() {
+                this.startTimer();
+            },
+        };
+
+        const SnakeGame = {
+    data() {
+        return {
+            gridSize: 10, // Grid size (10x10)
+            grid: [],
+            snake: [{ x: 2, y: 2 }, { x: 1, y: 2 }, { x: 0, y: 2 }],
+            direction: 'right', // Initial direction
+            food: { x: 5, y: 5 },
+            gameOver: false,
+            foodCounter: 0,  // Tracks how many apples the player has eaten
+            gameInterval: null,
+            targetFoodCount: 3, // Target number of apples to win
+            wins: 0, // Number of times the player has won
+            successMessage: '' // Success message to show when target is reached
+        };
+    },
+    methods: {
+        initializeGame() {
+            this.grid = Array.from({ length: this.gridSize }, () =>
+                Array.from({ length: this.gridSize }, () => 0)
+            );
+            this.snake = [{ x: 2, y: 2 }, { x: 1, y: 2 }, { x: 0, y: 2 }];
+            this.direction = 'right';
+            this.food = this.generateFood();
+            this.foodCounter = 0;  // Reset food counter at the start of the game
+            this.gameOver = false;
+            this.successMessage = ''; // Reset success message
+            clearInterval(this.gameInterval);
+            this.gameInterval = setInterval(this.moveSnake, 200); // Move snake every 200ms
+        },
+        moveSnake() {
+            const head = { ...this.snake[0] };
+            if (this.direction === 'right') head.x++;
+            if (this.direction === 'left') head.x--;
+            if (this.direction === 'down') head.y++;
+            if (this.direction === 'up') head.y--;
+
+            // Check if snake hits the walls or itself
+            if (
+                head.x < 0 || head.x >= this.gridSize ||
+                head.y < 0 || head.y >= this.gridSize ||
+                this.isSnakeCell(head.y, head.x)
+            ) {
+                this.gameOver = true;
+                clearInterval(this.gameInterval);
+                return;
+            }
+
+            this.snake.unshift(head); // Add new head to the snake
+
+            // Check if snake eats food
+            if (head.x === this.food.x && head.y === this.food.y) {
+                this.foodCounter++; // Increase food counter
+                if (this.foodCounter >= this.targetFoodCount) {
+                    this.winGame(); // Player wins when the target is reached
+                }
+                this.food = this.generateFood();
+            } else {
+                this.snake.pop(); // Remove tail
+            }
+        },
+        isSnakeCell(row, col) {
+            return this.snake.some(segment => segment.x === col && segment.y === row);
+        },
+        isFoodCell(row, col) {
+            return this.food.x === col && this.food.y === row;
+        },
+        generateFood() {
+            let foodPosition;
+            do {
+                foodPosition = {
+                    x: Math.floor(Math.random() * this.gridSize),
+                    y: Math.floor(Math.random() * this.gridSize)
+                };
+            } while (this.isSnakeCell(foodPosition.y, foodPosition.x)); // Ensure food is not on the snake
+            return foodPosition;
+        },
+        startNewGame() {
+            this.initializeGame();
+        },
+        handleKeydown(event) {
+            if (event.key === 'ArrowLeft' && this.direction !== 'down') {
+                this.direction = 'up';
+            } else if (event.key === 'ArrowRight' && this.direction !== 'up') {
+                this.direction = 'down';
+            } else if (event.key === 'ArrowUp' && this.direction !== 'right') {
+                this.direction = 'left';
+            } else if (event.key === 'ArrowDown' && this.direction !== 'left') {
+                this.direction = 'right';
+            }
+        },
+        winGame() {
+            this.wins++; // Increment win count
+            this.successMessage = `You won! THAT'S ANOTHER POINT FOR YOU!!`;
+            this.gameOver = true;
+            clearInterval(this.gameInterval); // Stop the game
+            this.$emit('game-completed'); // Emit game completion only after the target is reached
+        }
+    },
+    mounted() {
+        window.addEventListener('keydown', this.handleKeydown);
+        this.initializeGame();
+    },
+    beforeUnmount() {
+        window.removeEventListener('keydown', this.handleKeydown);
+    },
+    template: `
+        <div class="snake-container">
+            <div class="game-board">
+                <div v-for="(row, rowIndex) in grid" :key="'row-' + rowIndex" class="row">
+                    <div
+                        v-for="(cell, cellIndex) in row"
+                        :key="'cell-' + rowIndex + '-' + cellIndex"
+                        class="cell"
+                        :class="{
+                            'snake': isSnakeCell(rowIndex, cellIndex),
+                            'food': isFoodCell(rowIndex, cellIndex)
+                        }"
+                    >                        <!-- Heart food icon -->
+                        <span v-if="isFoodCell(rowIndex, cellIndex)" style="font-size: 20px; color: red;">❤️</span>
+                    </div></div>
+                </div>
+            </div>
+            <div class="score">
+                <!-- No need to show score here, just show the food counter -->
+                <p>Apples eaten: {{ foodCounter }} / {{ targetFoodCount }}</p>
+            </div>
+            <div v-if="gameOver" class="game-over">
+                <p v-if="successMessage">{{ successMessage }}</p>
+                <button @click="startNewGame">Play Again</button>
+            </div>
+        </div>
+    `
+};
+
+        const app = Vue.createApp({
+            data() {
+                return {
+                    games: [
+                        { id: 'wordle', name: 'Wordle 💖', icon: 'images/wordle.svg', description: 'A fun word guessing game!' },
+                        // { id: 'hangman', name: 'Hangman 🎯', icon: 'images/hangman.png', description: 'Guess the word before the man hangs!' },
+                        { id: 'math', name: 'Math Quiz Blitz 🔢', icon: 'images/math.svg', description: 'Solve math problems as fast as you can!' },
+                        // { id: 'memory', name: 'Card Memory Match 🃏', icon: 'images/cards.svg', description: 'Match the cards to win!' },
+                        { id: 'snake', name: 'Snake Game 🐍', icon: 'images/snake.png', description: 'Make quick moves and win!' }
+                    ],
+                    selectedGame: null,
+                    completedGames: 0,
+                    targetCompletedGames: 5,
+                };
+            },
+            methods: {
+                selectGame(gameId) {
+                    this.selectedGame = this.games.find(game => game.id === gameId);
+                },
+                closeGame() {
+                    this.selectedGame = null;
+                },
+                incrementCounter() {
+                    this.completedGames += 1; // Increment the counter when a game is completed
+                },
+                navigateToPage4() {
+                    window.location.href = 'page4.html'; // Navigate to page 4 when the button is clicked
+                }
+            },
+            components: {
+                WordleGame,
+                MathBlitz,
+                SnakeGame
+            },
+            
+            mounted() {
+                setInterval(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.classList.add('sparkle');
+                    sparkle.style.left = Math.random() * window.innerWidth + 'px';
+                    sparkle.style.top = Math.random() * window.innerHeight + 'px';
+                    document.body.appendChild(sparkle);
+
+                    setTimeout(() => sparkle.remove(), 3000);
+                }, 100);
+            }
+        });
+
+        app.mount('#app');
+    </script>
+</body>
+
+
+
+</html>
