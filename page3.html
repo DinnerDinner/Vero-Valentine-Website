@@ -353,7 +353,7 @@
     <div id="app">
         <h1>Valentine's Mini-Game Hub</h1>
         <div class="counter">
-            <p>Games Won (final stage unlocks after 5 wins):   <span>  {{ completedGames }}</span></p>
+            <p>Games Won (final stage unlocks after 5 wins :3 :3 :3):       <span>  {{ completedGames }}</span></p>
         </div>
         <div class="game-container">
             <div v-for="game in games" :key="game.id" class="game-card" @click="selectGame(game.id)">
@@ -410,7 +410,7 @@
             `,
             data() {
                 return {
-                    word: 'heart',
+                    word: 'amour',
                     grid: Array.from({ length: 6 }, () => Array.from({ length: 5 }, () => ({ letter: '', status: '' }))),
                     currentRow: 0,
                     currentGuess: '',
@@ -689,11 +689,11 @@
             data() {
                 return {
                     games: [
-                        { id: 'wordle', name: 'Wordle 💖', icon: 'images/wordle.svg', description: 'A fun word guessing game!' },
+                        { id: 'wordle', name: 'Wordle 💖', icon: 'images/wordle.svg', description: "I remember how we'd play wordle, contexto, and whatnot in finance, and i remember everytime i would lose, i would just die internally, cause fuck i wanted to impress you...... i was dumb xD" },
                         // { id: 'hangman', name: 'Hangman 🎯', icon: 'images/hangman.png', description: 'Guess the word before the man hangs!' },
-                        { id: 'math', name: 'Math Quiz Blitz 🔢', icon: 'images/math.svg', description: 'Solve math problems as fast as you can!' },
+                        { id: 'math', name: 'Math Quiz Blitz 🔢', icon: 'images/math.svg', description: "I'm proud of your maths approach, you should continue, its lwky hot asf, to brush up ur memory and for the path to my heart, go win this, do it in the given time <3 "},
                         // { id: 'memory', name: 'Card Memory Match 🃏', icon: 'images/cards.svg', description: 'Match the cards to win!' },
-                        { id: 'snake', name: 'Snake Game 🐍', icon: 'images/snake.png', description: 'Make quick moves and win!' }
+                        { id: 'snake', name: 'Snake Game 🐍', icon: 'images/snake.png', description: 'snake game, for the days i was far frm you, or you werent there, or i just had to pretend that i wasnt in love with you, chess and snake were my besties, watching me crashout !!!' }
                     ],
                     selectedGame: null,
                     completedGames: 0,
