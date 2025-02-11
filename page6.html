@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page 6</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            overflow: hidden;
+            position: relative;
+            color: white;
+            font-family: 'Arial', sans-serif;
+        }
+
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            display: none; /* Initially hidden */
+        }
+
+        /* Loading Animation 1: Spinning Circle */
+        .loading-1 {
+            display: block;
+            width: 60px;
+            height: 60px;
+            border: 6px solid #0f0;
+            border-top: 6px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Loading Animation 2: Bouncing Dots */
+        .loading-2 {
+            display: block;
+            width: 50px;
+            height: 50px;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background-color: #0f0;
+            border-radius: 50%;
+            animation: bounce 0.6s ease-in-out infinite alternate;
+        }
+
+        .dot:nth-child(1) { animation-delay: 0s; }
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+
+        /* Button Style */
+        .button {
+            display: none; /* Initially hidden */
+            padding: 20px 40px;
+            background-color: #0f0;
+            color: #000;
+            font-size: 18px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            border-radius: 50px;
+            margin-top: 20px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .button:hover {
+            background-color: #00ff00;
+            transform: scale(1.1);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading animation options -->
+    <div class="loading-2">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+
+    <button class="button" id="startBtn">:3 FINALLYYYYY YOU'RE DONE, DUMBASSSSS</button>
+    <video id="video" src="video/up.mp4" preload="auto"></video>
+
+    <script>
+        const video = document.getElementById('video');
+        const button = document.getElementById('startBtn');
+        const loading2 = document.querySelector('.loading-2');
+
+        // After 3 seconds, hide the loading animation and show the button
+        setTimeout(() => {
+            loading2.style.display = 'none'; // Hide the loading animation
+            button.style.display = 'block'; // Show the button
+        }, 3000); // 3 seconds for loading animation
+
+        button.addEventListener('click', () => {
+            // Hide the button
+            button.style.display = 'none';
+
+            // Show and play the video
+            video.style.display = 'block';
+            video.play();
+        });
+    </script>
+</body>
+</html>

@@ -92,6 +92,21 @@
             position: relative;
             margin-bottom: 15px;
         }
+
+        .virus-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 387px;
+            height: 190px;
+            background-image: url('images/virus.jpg'); /* Replace with your virus image path */
+            background-size: cover;
+            border: none;
+            cursor: pointer;
+            z-index: 9999; /* Ensure the button is on top */
+        }
+        
     </style>
 </head>
 <body>
@@ -99,10 +114,10 @@
     <h1 id="title" class="glitch">Initializing System...</h1>
     <p id="message" class="glitch">Loading core modules... Please wait.</p>
 
-    <script>
+<script>
         const matrixBackground = document.querySelector('.matrix-background');
         let lineCount = 0;
-        let maxLines = 300; // Increase the number of lines to simulate overload
+        let maxLines = 150; // Increase the number of lines to simulate overload
         let codeLines = [
             "Initializing system...",
             "Loading core modules...",
@@ -118,7 +133,7 @@
 
         // Generate random system-like logs or binary strings
         function generateRandomText() {
-            const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz$> ";
+            const chars = "にぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖゝゞァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰ$> ";
             let text = "";
             let length = Math.floor(Math.random() * 8 + 10); // Random length between 10 and 20 chars
 
@@ -262,7 +277,14 @@
         // Fade in the overlay after a short delay
         setTimeout(() => {
             overlay.style.opacity = '1';
-        }, 10);
+            
+        }, 500);
+        const virusButton = document.createElement('button');
+            virusButton.classList.add('virus-button');
+            virusButton.onclick = function() {
+                window.location.href = 'page6.html';
+            };
+            overlay.appendChild(virusButton); 
     }
 
     // Orchestrate the entire process
