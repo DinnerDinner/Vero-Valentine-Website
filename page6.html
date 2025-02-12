@@ -92,6 +92,12 @@
             0% { transform: translateY(0); }
             100% { transform: translateY(-15px); }
         }
+        video {
+    transform: rotate(270deg) scale(0.7); /* Scale down to fit */
+    transform-origin: center center; /* Ensures proper rotation */
+}
+
+
     </style>
 </head>
 <body>
@@ -103,7 +109,7 @@
     </div>
 
     <button class="button" id="startBtn">:3 FINALLYYYYY YOU'RE DONE, DUMBASSSSS</button>
-    <video id="video" src="video/up.mp4" preload="auto"></video>
+    <video id="video" src="video/theproposal.mp4" preload="auto"></video>
 
     <script>
         const video = document.getElementById('video');
